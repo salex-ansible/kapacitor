@@ -1,0 +1,23 @@
+---
+- name: Download file
+  get_url:
+    url: '{{ kapacitor_deb_url }}'
+    dest: ~/kapacitor.deb
+    force_basic_auth: yes
+    validate_certs: no
+
+- name: Install Kapacitor from deb package
+  apt:
+    deb: ~/kapacitor.deb
+    state: present
+  become: yes
+
+- name: Copy kapacitor.conf from custom file
+  copy:
+    src: '{{ kapacitor_config_file_path }}'
+    dest: /etc/kapacitor/kapacitor.conf
+    owner: root
+    group: root
+  notify:
+    - restart kapacitor
+  when: kapacitor_config_file_path is defined
