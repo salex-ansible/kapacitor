@@ -3,7 +3,6 @@
   get_url:
     url: '{{ kapacitor_deb_url }}'
     dest: ~/kapacitor.deb
-    force_basic_auth: yes
     validate_certs: no
 
 - name: Install Kapacitor from deb package
